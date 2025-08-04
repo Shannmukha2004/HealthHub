@@ -9,6 +9,7 @@ from django.core.mail import send_mail
 from django.http import HttpResponse
 from .forms import RegisterForm
 from .models import CustomUser
+from django.contrib import messages
 
 def register(request):
     if request.method == "POST":
@@ -21,7 +22,14 @@ def register(request):
             uid = urlsafe_base64_encode(force_bytes(user.pk))
             token = default_token_generator.make_token(user)
             link = f"http://{domain}/accounts/activate/{uid}/{token}/"
-            send_mail("Activate HealthHub", f"Click to activate: {link}",
+
+            '''subject = 'Welcome to HealthHub!'
+            message = f'Hi {user.username},\n\nThank you for creating an account on HealthHub. We are excited to have you!'
+            from_email = 'your_email@gmail.com'
+            recipient_list = [user.email]
+            send_mail(subject, message, from_email, recipient_list)'''
+
+            send_mail("Activate HealthHub", f"Hi {user.username},\n\nThank you for creating an account on HealthHub. We are excited to have you! \n\n Click to activate: {link}",
                       "admin@healthhub.com", [user.email])
             return HttpResponse("Check your email to activate your account.")
     else:
