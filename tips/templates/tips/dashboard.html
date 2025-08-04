@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2 class="mb-4">My Health Tips</h2>
+<a href="{% url 'create_tip' %}" class="btn btn-success mb-3">+ New Tip</a>
+{% for tip in tips %}
+<div class="card mb-2">
+  <div class="card-header">{{ tip.title }}</div>
+  <div class="card-body">{{ tip.content }} <br><strong>{{ tip.created_at }}</strong></div>
+  <div class="card-footer text-muted">
+  <a href="{% url 'edit_tip' tip.pk %}" class="btn btn-success mb-3"
+     style="width:80px; margin-right: 20px; margin-top: 17px;">
+    Edit</a>
+
+  <a href="{% url 'delete_tip' tip.pk %}" class="btn btn-success mb-3"
+     style="width: 80px; margin-top: 17px;" >
+    Delete</a></div>
+
+</div>
+{% empty %}
+<p>No tips yet.</p>
+{% endfor %}
+{% endblock %}
